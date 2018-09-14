@@ -1,0 +1,17 @@
+# This file can be used to install module dependencies for unit testing
+# See https://github.com/puppetlabs/puppetlabs_spec_helper#using-fixtures for details
+---
+fixtures:
+  forge_modules:
+    archive:
+      repo: puppet/archive
+      ref: 1.2.0
+    stdlib:
+      repo: puppetlabs/stdlib
+      ref: 4.25.1
+    firewall:
+      repo: puppetlabs/firewall
+      ref: 1.12.0
+    systemd:
+      repo: camptocamp/systemd
+      ref: 2.0.0

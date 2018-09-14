@@ -1,0 +1,13 @@
+# Managed by Puppet (<%= @module_name %>)
+#
+# Set ulimits for the ArcGIS service username
+<%= @real_username %> soft nofile <%= @real_nofile_soft %>
+<%= @real_username %> hard nofile <%= @real_nofile_hard %>
+<%= @real_username %> soft nproc <%= @real_nproc_soft %>
+<%= @real_username %> hard nproc <%= @real_nproc_hard %>
+<%= @real_username %> soft memlock <%= @real_memlock_soft %>
+<%= @real_username %> hard memlock <%= @real_memlock_hard %>
+<%= @real_username %> soft fsize <%= @real_fsize_soft %>
+<%= @real_username %> hard fsize <%= @real_fsize_hard %>
+<%= @real_username %> soft as <%= @real_as_soft %>
+<%= @real_username %> hard as <%= @real_as_hard %>

@@ -1,0 +1,4 @@
+---
+arcgis::globals:
+  version: '10.6.1'
+arcgis::server:
