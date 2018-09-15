@@ -153,18 +153,26 @@ module ArcGISFacts
   def self.collect_installed_patches
     return unless @config[:facter_enable_detect_patches]
 
+    # Example block:
+    # #START
+    # QFE_ID: QFE-1051-S-123456
+    # QFE_TYPE: Patch
+    # QFE_TITLE: ArcGIS Server 10.5.1 ArcGIS ABCD Patch
+    # INSTALL_TIME: 09/01/18 12:00:00
+    # #END
+
     patch_log_file = File.join(@config[:path_server_install], '.ESRI_S_PATCH_LOG')
     return unless File.exist? patch_log_file
 
     # FIXME: need to pull an example from a system that has patches installed
     # to validate this.
-    start_match = %r{^\#start}
-    end_match = %r{^\#end}
+    start_match = %r{^\#START}
+    end_match = %r{^\#END}
     param_match = %r{^\s*(?<key>.+)\s*:\s*(?<value>.*)\s*}
 
     patch_list = []
     current_object = {}
-    File.readlines(latest_server_properties_filename).each do |line|
+    File.readlines(patch_log_file).each do |line|
       case line
       when start_match
         # FIXME: do we really want to just clear the object, because if it's not
@@ -179,14 +187,14 @@ module ArcGISFacts
         current_object = {}
       else
         m = line.match(param_match)
-        if m[:key] && !m[:key].empty?
+        if m && m[:key] && !m[:key].empty?
           current_object[m[:key].to_sym] = m[:value] || nil
         end
       end
     end
 
-    set_fact('installed_patches', current_objects)
-    set_fact('installed_qfe_ids', current_objects.map { |p| p[:QFE_ID] || nil }.compact.uniq)
+    set_fact('installed_patches', patch_list)
+    set_fact('installed_qfe_ids', patch_list.map { |p| p[:QFE_ID] || nil }.compact.uniq)
   end
 
   def self.token_expired?
