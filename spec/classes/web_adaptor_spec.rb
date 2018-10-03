@@ -95,7 +95,7 @@ describe 'arcgis::web_adaptor' do
       context 'will have config command' do
         it {
           is_expected.to contain_exec('arcgis-web-adaptor-configure').with(
-            command:    "sudo -u arcgis bash -c '/opt/arcgis/webadaptor10.6.1/java/tools/configurewebadaptor.sh -m server -w \"http://localhost:8080/arcgis/webadaptor\" -g \"http://localhost:6080\" -u \"admin\" -p \"admin\" -a false'",
+            command:    "sudo -u arcgis bash -c 'sleep 15; /opt/arcgis/webadaptor10.6.1/java/tools/configurewebadaptor.sh -m server -w \"http://localhost:8080/arcgis/webadaptor\" -g \"http://localhost:6080\" -u \"admin\" -p \"admin\" -a false'",
             cwd:        '/opt/arcgis/webadaptor10.6.1/java/tools',
             user:       'root',
             group:      'root',
@@ -197,7 +197,7 @@ describe 'arcgis::web_adaptor' do
       context 'will have config command' do
         it {
           is_expected.to contain_exec('arcgis-web-adaptor-configure').with(
-            command:    "sudo -u esri bash -c '/data/arcgis/webadaptor10.5.1/java/tools/configurewebadaptor.sh -m portal -w \"https://my.domain.local/arcgis/webadaptor\" -g \"http://localhost:6080\" -u \"foo\" -p \"bar\" -a true'",
+            command:    "sudo -u esri bash -c 'sleep 15; /data/arcgis/webadaptor10.5.1/java/tools/configurewebadaptor.sh -m portal -w \"https://my.domain.local/arcgis/webadaptor\" -g \"http://localhost:6080\" -u \"foo\" -p \"bar\" -a true'",
             cwd:        '/data/arcgis/webadaptor10.5.1/java/tools',
             user:       'root',
             group:      'root',

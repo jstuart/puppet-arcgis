@@ -19,7 +19,10 @@ describe 'arcgis::tools::tomcat' do
     ],
   ).each do |_os, os_facts|
     let(:facts) do
-      os_facts
+      os_facts.merge(
+        java_major_version: '8',
+        java_patch_level: '181',
+      )
     end
 
     context 'will work with default globals' do
