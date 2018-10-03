@@ -20,7 +20,13 @@ class arcgis::config::firewall inherits arcgis::params {
               action => accept,
             }
           }
+          default: {
+            fail('This functionality is only supported on EL 6 and EL 7 variants.')
+          }
         }
+      }
+      default: {
+        fail('This functionality is only supported on EL 6 and EL 7 variants.')
       }
     }
   }

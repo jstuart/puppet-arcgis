@@ -53,8 +53,8 @@ class arcgis::web_adaptor inherits arcgis::params {
     }
 
     file { $arcgis::params::web_adaptor_webapps_target:
-      ensure => 'link',
-      target => $arcgis::params::web_adaptor_war_file,
+      ensure  => 'link',
+      target  => $arcgis::params::web_adaptor_war_file,
       notify  => Exec['arcgis-web-adaptor-configure'],
       require => Exec['arcgis-web-adaptor-install'],
     }
