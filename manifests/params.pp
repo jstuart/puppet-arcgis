@@ -68,11 +68,21 @@ class arcgis::params inherits arcgis::globals {
   #$server_sysv_service_source    = "${arcgis::params::path_server_install}/framework/etc/scripts/arcgisserver"
   $server_systemd_service_file   = '/etc/systemd/system/arcgisserver.service'
   #$server_systemd_service_source = "${arcgis::params::path_server_install}/framework/etc/scripts/arcgisserver.service"
+  # FIXME: this needs to be intelligent, and passed through to everything that uses it
+  $server_uri_protocol           = 'http'
+  $server_uri_fqdn               = 'localhost'
+  $server_uri_port               = '6080'
+  $server_uri_full               = "${arcgis::params::server_uri_protocol}://${arcgis::params::server_uri_fqdn}:${arcgis::params::server_uri_port}"
 
   # Web adaptor Paths
-  $web_adaptor_setup_archive = "${arcgis::params::path_archive_parent}/${arcgis::globals::web_adaptor_archive_package_file}"
-  $web_adpater_setup_runtime = "${arcgis::params::path_software_setup}/${arcgis::params::real_version}/WebAdaptor/Setup"
-  $web_adaptor_log_dir       = '/var/log/arcgis/webadaptor'
+  $web_adaptor_setup_archive     = "${arcgis::params::path_archive_parent}/${arcgis::globals::web_adaptor_archive_package_file}"
+  $web_adaptor_setup_runtime     = "${arcgis::params::path_software_setup}/${arcgis::params::real_version}/WebAdaptor/Setup"
+  $web_adaptor_war_file          = "${arcgis::params::path_web_adaptor_install}/java/arcgis.war"
+  $web_adaptor_webapps_target    = "${arcgis::globals::web_adaptor_webapps_deploy_dir}/arcgis.war"
+  $web_adaptor_tools_dir         = "${arcgis::params::path_web_adaptor_install}/java/tools"
+  $web_adaptor_config_runtime    = "${arcgis::params::web_adaptor_tools_dir}/configurewebadaptor.sh"
+  $web_adaptor_uninstall_runtime = "${arcgis::params::path_web_adaptor_install}/java/uninstall_WebAdaptor"
+  $web_adaptor_log_dir           = '/var/log/arcgis/webadaptor'
 
   # Portal Paths
   $portal_start_tool             = "${arcgis::params::path_portal_install}/startportal.sh"

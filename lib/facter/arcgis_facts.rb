@@ -17,6 +17,7 @@ module ArcGISFacts
   @esri_properties = {}
   @token = nil
   @token_expires = nil
+  @rest_info = nil
 
   # Set host fact
   def self.set_fact(key, value)
@@ -270,11 +271,21 @@ module ArcGISFacts
     uri = URI.parse(REST_INFO_URI)
     request = Net::HTTP::Get.new(uri.request_uri)
 
-    response = do_api_call(request, uri)
-    return unless response.code.to_i == 200
+    begin
+      response = do_api_call(request, uri)
+      return unless response.code.to_i == 200
 
-    @rest_info = JSON.parse(response.body, symbolize_names: true)
-    set_fact('rest_info', @rest_info)
+      @rest_info = JSON.parse(response.body, symbolize_names: true)
+      set_fact('rest_info', @rest_info)
+    rescue Exception => e
+      # Catching everything isn't the best idea in the world, but we really don't
+      # want anything bubbling up.
+      Facter.debug("Exception while getting ArcGIS REST info: #{$!}")
+    end
+  end
+
+  def self.has_rest_info?
+    return ! @rest_info.nil?
   end
 
   def self.collect_has_site
@@ -313,6 +324,7 @@ module ArcGISFacts
     # Then run some queries
     # get_token
     collect_rest_info
+    return unless has_rest_info?
     collect_has_site
   end
 end

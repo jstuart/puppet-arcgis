@@ -19,7 +19,7 @@ describe 'arcgis::server' do
     ],
   ).each do |_os, os_facts|
     context 'with server' do
-      service_provider = (os_facts[:operatingsystemmajrelease] == '7') ? 'systemd' : 'redhat'
+      service_provider = (os_facts[:operatingsystemrelease] == '7') ? 'systemd' : 'redhat'
       let(:facts) do
         os_facts.merge(service_provider: service_provider)
       end
@@ -104,7 +104,7 @@ describe 'arcgis::server' do
         end
 
         context 'will have service file' do
-          if os_facts[:operatingsystemmajrelease] == '7'
+          if os_facts[:operatingsystemrelease] == '7'
             it { is_expected.to contain_systemd__unit_file('arcgisserver.service').with_ensure('present') }
             it { is_expected.to contain_systemd__unit_file('arcgisserver.service').with_content(%r{^# ArcGIS Server systemd unit file}) }
             it { is_expected.to contain_systemd__unit_file('arcgisserver.service').with_content(%r{^User=arcgis$}) }
@@ -113,7 +113,7 @@ describe 'arcgis::server' do
             it { is_expected.to contain_systemd__unit_file('arcgisserver.service').that_requires('Exec[arcgis-server-install]') }
             it { is_expected.to contain_systemd__unit_file('arcgisserver.service').that_comes_before('Service[arcgisserver]') }
             it { is_expected.to contain_systemd__unit_file('arcgisserver.service').that_notifies('Service[arcgisserver]') }
-          elsif os_facts[:operatingsystemmajrelease] == '6'
+          elsif os_facts[:operatingsystemrelease] == '6'
             it {
               is_expected.to contain_file('/etc/rc.d/init.d/arcgisserver').with(
                 ensure: 'present',
@@ -296,7 +296,7 @@ describe 'arcgis::server' do
         end
 
         context 'will have service file' do
-          if os_facts[:operatingsystemmajrelease] == '7'
+          if os_facts[:operatingsystemrelease] == '7'
             it { is_expected.to contain_systemd__unit_file('arcgisserver.service').with_ensure('present') }
             it { is_expected.to contain_systemd__unit_file('arcgisserver.service').with_content(%r{^# ArcGIS Server systemd unit file}) }
             it { is_expected.to contain_systemd__unit_file('arcgisserver.service').with_content(%r{^User=esri$}) }
@@ -305,7 +305,7 @@ describe 'arcgis::server' do
             it { is_expected.to contain_systemd__unit_file('arcgisserver.service').that_requires('Exec[arcgis-server-install]') }
             it { is_expected.to contain_systemd__unit_file('arcgisserver.service').that_comes_before('Service[arcgisserver]') }
             it { is_expected.to contain_systemd__unit_file('arcgisserver.service').that_notifies('Service[arcgisserver]') }
-          elsif os_facts[:operatingsystemmajrelease] == '6'
+          elsif os_facts[:operatingsystemrelease] == '6'
             it {
               is_expected.to contain_file('/etc/rc.d/init.d/arcgisserver').with(
                 ensure: 'present',

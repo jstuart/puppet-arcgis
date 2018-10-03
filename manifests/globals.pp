@@ -56,6 +56,18 @@ class arcgis::globals (
   Boolean $manage_firewall                               = true,
   Array[Variant[String,Integer]] $firewall_allowed_ports = [1098, '4000-4004', 6006, 6080, 6099, 6443],
 
+  # Management of Java
+  # If this is false, you must ensure that Java 8 is present Before => [arcgis::tools::java]
+  Boolean $manage_java = false,
+
+  # Management of Tomcat
+  Boolean $manage_tomcat = false,
+
+  # Management of EPEL
+  # If this is false, and you are using Tomcat, you must ensure EPEL is available
+  # Before => [arcgis::tools::epel]
+  Boolean $manage_epel = false,
+
   # Service autostart
   Boolean $configure_autostart                       = true,
   Optional[Boolean] $configure_autostart_server      = undef,
@@ -90,6 +102,27 @@ class arcgis::globals (
   Integer $server_max_output_file_age = 10,
   # The max age of system files before they're cleaned up
   Integer $server_max_system_file_age = 1440,
+
+  ##
+  # Patch configuration
+  ##
+  # Note: if both of the flags below are true, the patch install may happen
+  # zero, one, or two times during a puppet run.
+  #
+  # Use the discovered facts to determine what patches should be applied
+  Boolean $patch_install_use_facts = true,
+  # Use the file dropped after initial patch installation to determine what
+  # patches should be applied
+  Boolean $patch_install_use_file_indicator = false,
+
+  ##
+  # Web Adaptor Params
+  ##
+  Enum['server', 'portal'] $web_adaptor_mode                         = 'server',
+  Variant[Stdlib::Httpurl, Stdlib::Httpsurl] $web_adaptor_public_uri = 'http://localhost:8080/arcgis/webadaptor',
+  # Allow admin endpoints to be accessed through the web adaptor?
+  Boolean $web_adaptor_enable_admin                                  = false,
+  Optional[String] $web_adaptor_webapps_dir                          = undef,
 
   ##
   # World Geocoder Params
@@ -216,12 +249,14 @@ class arcgis::globals (
             true    => $arcgis::globals::external_required_packages_rhel,
             default => [],
           }
+          $web_adaptor_default_webapps_dir = '/usr/share/tomcat/webapps'
         }
         /^6\./: {
           $external_package_list = $arcgis::globals::install_system_requirements ? {
             true    => $arcgis::globals::external_required_packages_rhel,
             default => [],
           }
+          $web_adaptor_default_webapps_dir = '/var/lib/tomcat/webapps'
         }
         default: {
           fail('This module only supports EL 6 and 7 variants')
@@ -356,5 +391,10 @@ class arcgis::globals (
 
   if empty($arcgis::globals::psa_password) {
     fail ('The psa_password is required.')
+  }
+
+  $web_adaptor_webapps_deploy_dir = $arcgis::globals::web_adaptor_webapps_dir ? {
+    undef   => $arcgis::globals::web_adaptor_default_webapps_dir,
+    default => $arcgis::globals::web_adaptor_webapps_dir,
   }
 }

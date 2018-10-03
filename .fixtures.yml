@@ -6,12 +6,27 @@ fixtures:
     archive:
       repo: puppet/archive
       ref: 1.2.0
-    stdlib:
-      repo: puppetlabs/stdlib
-      ref: 4.25.1
+    concat:
+      repo: puppetlabs/concat
+      ref: 4.2.1
+    epel:
+      repo: stahnma/epel
+      ref: 1.3.1
     firewall:
       repo: puppetlabs/firewall
       ref: 1.12.0
+    firewalld:
+      repo: crayfishx/firewalld
+      ref: 3.4.0
+    java:
+      repo: puppetlabs/java
+      ref: 3.1.0
+    stdlib:
+      repo: puppetlabs/stdlib
+      ref: 4.25.1
     systemd:
       repo: camptocamp/systemd
       ref: 2.0.0
+    tomcat:
+      repo: puppetlabs/tomcat
+      ref: 1.7.0

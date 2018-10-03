@@ -58,8 +58,8 @@ class arcgis::world_geocoder inherits arcgis::params {
     # http for protocol, the value for the server property should be
     # gisserver.domain.com:6080. If you're using https for protocol, the value
     # for the server property should be gisserver.domain.com:6443.
-    $server = 'localhost:6080' # FIXME: server URI
-    $protocol = 'http' # FIXME: server URI
+    $server = "${arcgis::params::server_uri_fqdn}:${arcgis::params::server_uri_port}"
+    $protocol = $arcgis::params::server_uri_protocol
 
     # Set the portal property to the fully qualified domain name of the machine
     # running Portal for ArcGIS. Be sure to include the port number, 7443, when

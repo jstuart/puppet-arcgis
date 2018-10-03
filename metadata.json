@@ -7,6 +7,18 @@
   "source": "https://github.com/jstuart/puppet-arcgis",
   "dependencies": [
     {
+      "name": "voxpupuli/archive",
+      "version_requirement": ">= 1.2.0 < 4.0.0"
+    },
+    {
+      "name": "puppetlabs/concat",
+      "version_requirement": ">= 1.1.0 < 6.0.0"
+    },
+    {
+      "name": "stahnma/epel",
+      "version_requirement": ">= 1.3.0 < 2.0.0"
+    },
+    {
       "name": "puppetlabs/firewall",
       "version_requirement": ">= 1.0.0 < 2.0.0"
     },
@@ -15,16 +27,20 @@
       "version_requirement": ">= 3.0.0 < 4.0.0"
     },
     {
+      "name": "puppetlabs/java",
+      "version_requirement": ">= 3.0.0 < 4.0.0"
+    },
+    {
       "name": "puppetlabs/stdlib",
       "version_requirement": ">= 4.24.0 < 5.0.0"
     },
     {
-      "name": "voxpupuli/archive",
-      "version_requirement": ">= 1.2.0 < 4.0.0"
-    },
-    {
       "name": "camptocamp/systemd",
       "version_requirement": ">= 2.0.0 < 3.0.0"
+    },
+    {
+      "name": "puppetlabs/tomcat",
+      "version_requirement": ">= 1.7.0 < 2.0.0"
     }
   ],
   "operatingsystem_support": [

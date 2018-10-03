@@ -25,7 +25,7 @@ This module supports ArcGIS Enterprise 10.4+ (to 10.6.1 at present).
 ### This module can manage the following
 
 * ArcGIS Server
-* ArcGIS Web Adaptor (future)
+* ArcGIS Web Adaptor
 * ArcGIS Portal (future)
 * ArcGIS Data Store (future)
 * ArcGIS World Geocoder
@@ -42,13 +42,45 @@ This module request the following Puppet modules:
 (optional).
 * The [camptocamp/systemd](https://forge.puppet.com/camptocamp/systemd) Puppet library for systemd service management on EL7.
 
-### Firewall management
+### Firewall management (future)
 
 This module will support the management of ArcGIS service exposure using iptables on EL6/7 and firewalld on EL7.
 
 If enabled, the following Puppet modules may be required:
 * The [firewall](https://forge.puppet.com/puppetlabs/firewall) Puppet library for the management of iptables (optional).
-* The [firewalld](https://forge.puppet.com/crayfishx/firewalld) Puppet library for the management of firewalld on EL7
+* The [firewalld](https://forge.puppet.com/crayfishx/firewalld) Puppet library for the management of firewalld on EL7 (optional).
+
+### Java management (optional)
+
+This module will support the management of Java, as required by ArcGIS Web Adaptor.  Management is disabled by default because
+the target audience for this module almost certainly manages Java already.  If the `arcgis::globals::manage_java` param is set
+to false and you're using Web Adaptor, you must ensure your tooling installs and configures Java before the `arcgis::tools::java`
+class.  That class will be required by anything that needs Java.
+
+If enabled, the following Puppet modules will be required:
+* The [java](https://forge.puppet.com/puppetlabs/java) Puppet library for the management of Java (optional).
+
+### EPEL management (optional)
+
+This module will support the management of EPEL, which is used by Tomcat and required only if Tomcat is enabled. Management is
+disabled by default because the target audience for this module almost certainly manages EPEL already.  If the
+`arcgis::globals::manage_epel` param is set to false and you're using Tomcat, you must ensure your tooling installs and
+configures EPEL before the `arcgis::tools::epel` class.  That class will be required by anything that needs EPEL.
+
+If enabled, the following Puppet modules will be required:
+* The [epel](https://forge.puppet.com/stahnma/epel) Puppet library for the management of EPEL (optional).
+
+### Tomcat management (optional)
+
+This module will support the management of Tomcat, which is used by ArcGIS Web Adaptor. Management is disabled by default because
+the target audience for this module almost certainly manages Tomcat already.  If the `arcgis::globals::manage_tomcat` param is set
+to false and you're using Web Adaptor, you must ensure your tooling installs and configures Tomcat before the
+`arcgis::tools::tomcat` class.  That class will be required by anything that needs Tomcat.
+
+Note: You may need to use module version 1.7.0 or below to avoid [MODULES-6580](https://tickets.puppetlabs.com/browse/MODULES-6580) on EL based systems.
+
+If enabled, the following Puppet modules will be required:
+* The [tomcat](https://forge.puppet.com/puppetlabs/tomcat) Puppet library for the management of Tomcat (optional).
 
 ### Beginning with ArcGIS
 
