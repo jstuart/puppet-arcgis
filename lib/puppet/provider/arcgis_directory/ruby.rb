@@ -5,6 +5,8 @@ require 'puppet/provider/arcgis_rest_api'
 ##
 # REST API for directory objects
 #
+# rubocop:disable Metrics/LineLength
+#
 # = Directories =
 # List: http://server:port/arcgis/admin/system/directories [GET]
 # Create: http://server:port/arcgis/admin/system/directories/register [POST]
@@ -268,6 +270,8 @@ require 'puppet/provider/arcgis_rest_api'
 #   "code": 404
 # }
 ##
+#
+# rubocop:enable Metrics/LineLength
 #
 # TODO: there can be one and only one SYSTEM directory.
 # See: https://developers.arcgis.com/rest/enterprise-administration/server/directory.htm

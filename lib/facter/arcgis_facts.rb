@@ -1,4 +1,5 @@
 
+require 'English'
 require 'facter'
 require 'json'
 require 'time'
@@ -83,11 +84,13 @@ module ArcGISFacts
       end
     end
 
+    # rubocop:disable Style/TernaryParentheses
     software_check_dir = (File.exist? @config[:path_software]) ? @config[:path_software] : @config[:path_arcgis]
     set_fact('avail_mb_software', Facter::Core::Execution.execute('df -l --output=avail -BM %s | tail -n 1' % software_check_dir))
 
     server_check_dir = (File.exist? @config[:path_server_install]) ? @config[:path_server_install] : @config[:path_arcgis]
     set_fact('avail_mb_tmp', Facter::Core::Execution.execute('df -l --output=avail -BM %s | tail -n 1' % server_check_dir))
+    # rubocop:enable Style/TernaryParentheses
   end
 
   def self.collect_esri_properties
@@ -271,21 +274,23 @@ module ArcGISFacts
     uri = URI.parse(REST_INFO_URI)
     request = Net::HTTP::Get.new(uri.request_uri)
 
+    # rubocop:disable Lint/RescueException
     begin
       response = do_api_call(request, uri)
       return unless response.code.to_i == 200
 
       @rest_info = JSON.parse(response.body, symbolize_names: true)
       set_fact('rest_info', @rest_info)
-    rescue Exception => e
+    rescue Exception
       # Catching everything isn't the best idea in the world, but we really don't
       # want anything bubbling up.
-      Facter.debug("Exception while getting ArcGIS REST info: #{$!}")
+      Facter.debug("Exception while getting ArcGIS REST info: #{ERROR_INFO}")
     end
+    # rubocop:enable Lint/RescueException
   end
 
-  def self.has_rest_info?
-    return ! @rest_info.nil?
+  def self.rest_info?
+    !@rest_info.nil?
   end
 
   def self.collect_has_site
@@ -324,7 +329,7 @@ module ArcGISFacts
     # Then run some queries
     # get_token
     collect_rest_info
-    return unless has_rest_info?
+    return unless rest_info?
     collect_has_site
   end
 end

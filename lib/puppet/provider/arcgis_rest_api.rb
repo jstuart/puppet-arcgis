@@ -103,9 +103,11 @@ class Puppet::Provider::ArcGISRESTAPI < Puppet::Provider
   # See: http://garylarizza.com/blog/2013/12/15/seriously-what-is-this-provider-doing/
   def self.prefetch(resources)
     instances.each do |prov|
+      # rubocop:disable Lint/AssignmentInCondition
       if resource = resources[prov.name]
         resource.provider = prov
       end
+      # rubocop:enable Lint/AssignmentInCondition
     end
   end
 

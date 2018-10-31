@@ -18,6 +18,8 @@ describe 'arcgis::config::firewall' do
       },
     ],
   ).each do |_os, os_facts|
+    # FIXME: remove after tests added
+    # rubocop:disable RSpec/EmptyExampleGroup
     context 'defaults' do
       let(:facts) { os_facts }
       let(:pre_condition) do
