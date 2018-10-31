@@ -74,17 +74,24 @@ define arcgis::patch(
     require       => File[$extract_path],
   }
 
+  $i_cmd = "sudo -u ${arcgis::globals::run_as_user} bash -c '${apply_script} -s ${patch_type_flag} -default && touch ${run_indicator}'"
+  $i_path = '/bin:/sbin:/usr/bin:/usr/sbin'
+  $i_user = 'root'
+  $i_group = 'root'
+  $i_umask = '022'
+  $i_timeout = '7200'
+
   if $arcgis::globals::patch_install_use_facts {
     # These two ifs could be merged, but it's harder to read.
-    if $::arcgis_installed_qfe_ids and ! empty($::arcgis_installed_qfe_ids) and ! ($_qfe_id in $::arcgis_installed_qfe_ids) {
+    if ! $::arcgis_installed_qfe_ids or ($::arcgis_installed_qfe_ids !~ Array[String]) or ! ($_qfe_id in $::arcgis_installed_qfe_ids) {
       exec { "${_qfe_id}_patch_install":
-        command => "sudo -u ${arcgis::globals::run_as_user} bash -c '${apply_script} -s ${patch_type_flag} -default && touch ${run_indicator}'",
-        user    => 'root',
-        group   => 'root',
-        umask   => '022',
+        command => $i_cmd,
+        user    => $i_user,
+        group   => $i_group,
+        umask   => $i_umask,
         cwd     => $extract_path,
-        path    => '/bin:/sbin:/usr/bin:/usr/sbin',
-        timeout => '7200',
+        path    => $i_path,
+        timeout => $i_timeout,
         creates => $run_indicator,
         require => $patch_install_require,
       }
@@ -93,13 +100,13 @@ define arcgis::patch(
 
   if $arcgis::globals::patch_install_use_file_indicator {
     exec { "${_qfe_id}_patch_install":
-      command => "sudo -u ${arcgis::globals::run_as_user} bash -c '${apply_script} -s ${patch_type_flag} -default && touch ${run_indicator}'",
-      user    => 'root',
-      group   => 'root',
-      umask   => '022',
+      command => $i_cmd,
+      user    => $i_user,
+      group   => $i_group,
+      umask   => $i_umask,
       cwd     => $extract_path,
-      path    => '/bin:/sbin:/usr/bin:/usr/sbin',
-      timeout => '7200',
+      path    => $i_path,
+      timeout => $i_timeout,
       creates => $run_indicator,
       require => $patch_install_require,
     }
